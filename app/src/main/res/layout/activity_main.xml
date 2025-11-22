@@ -2,18 +2,105 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Shower Timer"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/tvMainTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:00"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:id="@+id/tvElapsedLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Elapsed:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvMainTime"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/tvElapsedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvElapsedLabel"
+        app:layout_constraintStart_toEndOf="@id/tvElapsedLabel"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/tvRemainingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remaining:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvElapsedLabel"
+        app:layout_constraintStart_toStartOf="@id/tvElapsedLabel"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvRemainingTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:00"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvRemainingLabel"
+        app:layout_constraintStart_toEndOf="@id/tvRemainingLabel"
+        android:layout_marginStart="8dp" />
+
+    <Button
+        android:id="@+id/btnStartPause"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        app:layout_constraintTop_toBottomOf="@id/tvRemainingLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp" />
+
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        app:layout_constraintTop_toBottomOf="@id/btnStartPause"
+        app:layout_constraintStart_toStartOf="@id/btnStartPause"
+        app:layout_constraintEnd_toEndOf="@id/btnStartPause"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btnOpenYoutube"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Open YouTube"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/btnStartPause"
+        app:layout_constraintEnd_toEndOf="@id/btnStartPause"
+        android:layout_marginBottom="40dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
