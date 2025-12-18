@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private EditText etTotalMinutes, etIntervalMinutes, etYoutube;
+    private EditText etTotalMinutes, etintervalSeconds, etYoutube;
     private Switch switchVoice;
     private Button btnSave;
 
@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         etTotalMinutes = findViewById(R.id.etTotalMinutes);
-        etIntervalMinutes = findViewById(R.id.etIntervalMinutes);
+        etintervalSeconds = findViewById(R.id.etintervalSeconds);
         etYoutube = findViewById(R.id.etYoutube);
         switchVoice = findViewById(R.id.switchVoice);
         btnSave = findViewById(R.id.btnSave);
@@ -35,12 +35,12 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("shower_prefs", MODE_PRIVATE);
 
         long total = prefs.getLong("total_minutes", 10);
-        long interval = prefs.getLong("interval_minutes", 3);
+        long interval = prefs.getLong("interval_seconds", 3);
         boolean voice = prefs.getBoolean("voice_on", true);
         String youtube = prefs.getString("youtube_source", "");
 
         etTotalMinutes.setText(String.valueOf(total));
-        etIntervalMinutes.setText(String.valueOf(interval));
+        etintervalSeconds.setText(String.valueOf(interval));
         etYoutube.setText(youtube);
         switchVoice.setChecked(voice);
     }
@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void saveSettings() {
 
         String totalStr = etTotalMinutes.getText().toString().trim();
-        String intervalStr = etIntervalMinutes.getText().toString().trim();
+        String intervalStr = etintervalSeconds.getText().toString().trim();
         String youtube = etYoutube.getText().toString().trim();
         boolean voice = switchVoice.isChecked();
 
@@ -64,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
 
         editor.putLong("total_minutes", total);
-        editor.putLong("interval_minutes", interval);
+        editor.putLong("interval_seconds", interval);
         editor.putBoolean("voice_on", voice);
         editor.putString("youtube_source", youtube);
 

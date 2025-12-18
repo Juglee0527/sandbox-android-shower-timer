@@ -1,4 +1,4 @@
-package com.example.sandbox_android_shower_timer; // <= 본인 패키지명으로 수정
+package com.example.sandbox_android_shower_timer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private long elapsedMillis = 0L;     // 경과 시간(ms)
     private boolean isRunning = false;
 
-    // 설정 값 (분 단위)
+    // 설정 값
     private long totalMinutes = 10;      // 목표 샤워 시간 (분)
-    private long intervalMinutes = 3;    // 알림 간격 (분)
+    private long intervalSeconds = 3;    // 알림 간격 (초)
     private boolean voiceOn = true;      // 음성 안내 여부
     private String youtubeSource;        // 유튜브 링크 or 검색어
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 아직 SettingsActivity가 없으므로, 기본값 중심으로 동작
         totalMinutes = prefs.getLong("total_minutes", 10);          // 기본 10분
-        intervalMinutes = prefs.getLong("interval_minutes", 3);     // 기본 3분
+        intervalSeconds = prefs.getLong("interval_seconds", 10);     // 기본 10초
         voiceOn = prefs.getBoolean("voice_on", true);
         youtubeSource = prefs.getString(
                 "youtube_source",
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         // 내부 상태 초기화
-        nextIntervalMillis = intervalMinutes * 60 * 1000L;
+        nextIntervalMillis = intervalSeconds * 1000L;
         targetAnnounced = false;
     }
 
@@ -85,15 +85,21 @@ public class MainActivity extends AppCompatActivity {
         tts = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
                 int result = tts.setLanguage(Locale.KOREAN);
+
                 if (result == TextToSpeech.LANG_MISSING_DATA ||
                         result == TextToSpeech.LANG_NOT_SUPPORTED) {
                     Toast.makeText(this, "TTS 한국어를 지원하지 않습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // ✅ 여기 추가: 초기화가 끝났는지 확인용 테스트 멘트
+                    tts.speak("음성 안내가 정상적으로 설정되었습니다.",
+                            TextToSpeech.QUEUE_FLUSH, null, "INIT_TEST");
                 }
             } else {
                 Toast.makeText(this, "TTS 초기화 실패", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     private void initTimerRunnable() {
         timerRunnable = new Runnable() {
@@ -154,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void resetStopwatch() {
         pauseStopwatch();
         elapsedMillis = 0L;
-        nextIntervalMillis = intervalMinutes * 60 * 1000L;
+        nextIntervalMillis = intervalSeconds * 1000L;
         targetAnnounced = false;
         updateMainTimeText();
     }
@@ -172,16 +178,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 알림 간격마다 "n분 지났습니다" 음성 안내
+     * 알림 간격마다 "n초 지났습니다" 음성 안내
      */
     private void checkIntervalAnnounce() {
         // 알림 간격이 0이거나 음성 비활성화면 스킵
-        if (!voiceOn || intervalMinutes <= 0) return;
+        if (!voiceOn || intervalSeconds <= 0) return;
 
         while (elapsedMillis >= nextIntervalMillis) {
-            long minutes = nextIntervalMillis / 1000 / 60;
-            speak(minutes + "분 지났습니다.");
-            nextIntervalMillis += intervalMinutes * 60 * 1000L;
+            long minutes = nextIntervalMillis / 1000;
+            speak(minutes + "초 지났습니다.");
+            nextIntervalMillis += intervalSeconds * 1000L;
         }
     }
 
